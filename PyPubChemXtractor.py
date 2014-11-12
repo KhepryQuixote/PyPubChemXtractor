@@ -39,7 +39,7 @@ import sys
 import time
 
 # source file full path
-srcFileFullPath = "~/data/fracking/CID-Synonym-filtered_2013-07-10.txt"
+srcFileFullPath = "~/data/fracking/CID-Synonym-filtered.txt"
 
 # master file's full path
 masFileFullPath = "~/data/fracking/CID-CASRN-SynXref-Master.txt"
@@ -158,12 +158,12 @@ def main():
                 del casrns[:]
             del synonyms[:]
         
-        prevCID = rowDict['cid']
-        synonyms.append(rowDict['synonym'])
+        prevCID = rowDict['cid'].strip()
+        synonyms.append(rowDict['synonym'].strip())
         # if synonym matches CASRN regex pattern
-        if pattern.match(rowDict['synonym']):
+        if pattern.match(rowDict['synonym'].strip()):
             # append it for later file output
-            casrns.append(rowDict['synonym'])
+            casrns.append(rowDict['synonym'].strip())
             
         if rows % flushCount == 0:
             masFile.flush()
@@ -203,7 +203,7 @@ def main():
         rcdsPerSec = rows / seconds
     else:
         rcdsPerSec = 0
-    print ("CID Synonym Rows: {:,} in {:,} seconds @ {:,.0f} records/second".format(rows, seconds, rcdsPerSec))
+    print ("CID Synonym Rows: {:,} in {:,.0f} seconds @ {:,.0f} records/second".format(rows, seconds, rcdsPerSec))
         
     return
 
